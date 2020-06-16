@@ -13,28 +13,65 @@ function valuetext(value) {
     return `${value}°C`;
 }
 
-export default function RangeSlider({sendData}) {
+export default function RangeSlider({sendFilters}) {
     const classes = useStyles();
-    const [value, setValue] = React.useState([100, 400]);
+    const [distanceValue, setDistanceValue] = React.useState([0, 5]);
+    const [forceValue, setForceValue] = React.useState([0, 100]);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-        sendData(newValue)
+    function handleFilterChange(){
+        let allFilters = [
+            {
+                filter: 'actuationDistance',
+                range: distanceValue
+            },
+            {
+                filter: 'actuationForce',
+                range: forceValue
+            }
+        ]
+
+        sendFilters(allFilters)
+    }
+    
+    const handleDistanceChange = (event, newValue) => {
+        setDistanceValue(newValue);
+        // sendData(newValue, 'actuationDistance')
+        handleFilterChange()
+    };
+
+    const handleForceChange = (event, newValue) => {
+        setForceValue(newValue);
+        // sendData(newValue, 'actuationForce')
+        handleFilterChange()
     };
 
     return (
         <div className={classes.root}>
-            <Typography id="range-slider" gutterBottom>
-                Calories
+            <Typography id="actuation-distance-range-slider" gutterBottom>
+                Actuation Distance (mm)
             </Typography>
             <Slider
-                value={value}
-                onChange={handleChange}
+                value={distanceValue}
+                onChange={handleDistanceChange}
+                min={0}
+                step={0.1}
+                max={5}
+                valueLabelDisplay="auto"
+                aria-labelledby="distance-range-slider"
+                getAriaValueText={valuetext}
+            />
+
+            <Typography id="actuation-force-range-slider" gutterBottom>
+                Actuation Force (cN)
+            </Typography>
+            <Slider
+                value={forceValue}
+                onChange={handleForceChange}
                 min={0}
                 step={1}
-                max={500}
+                max={100}
                 valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
+                aria-labelledby="force-range-slider"
                 getAriaValueText={valuetext}
             />
         </div>

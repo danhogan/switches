@@ -65,11 +65,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-    { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-    { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-    { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'brand', numeric: false, disablePadding: true, label: 'Brand' },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+    { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
+    { id: 'actuationDistance', numeric: true, disablePadding: false, label: 'Actuation Distance (mm)' },
+    { id: 'actuationForce', numeric: true, disablePadding: false, label: 'Actuation Force (cN)' },
 ];
 
 function EnhancedTableHead(props) {
@@ -208,10 +208,10 @@ const useStyles = makeStyles(theme => ({
 export default function EnhancedTable({rows}) {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('acuationForce');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -304,12 +304,12 @@ export default function EnhancedTable({rows}) {
                                                 />
                                             </TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.name}
+                                                {row.brand}
                                             </TableCell>
-                                            <TableCell align="right">{row.calories}</TableCell>
-                                            <TableCell align="right">{row.fat}</TableCell>
-                                            <TableCell align="right">{row.carbs}</TableCell>
-                                            <TableCell align="right">{row.protein}</TableCell>
+                                            <TableCell align="right">{row.name}</TableCell>
+                                            <TableCell align="right">{row.type}</TableCell>
+                                            <TableCell align="right">{row.actuationDistance}</TableCell>
+                                            <TableCell align="right">{row.actuationForce}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -322,7 +322,7 @@ export default function EnhancedTable({rows}) {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[25]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
